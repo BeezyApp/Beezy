@@ -13,6 +13,8 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
   Location _locationService = new Location();
   LocationData _startLocation;
   LocationData _currentLocation;
+  // LatLng _currentLa/tLng;
+
 
   GoogleMap _googleMap;
   CameraPosition _currentCameraPosition;
@@ -43,6 +45,8 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
           if (mounted) {
             setState(() {
               _currentLocation = result;
+              // _currentLatLng = LatLng(result.latitude, result.longitude);
+
             });
           }
         });
@@ -71,6 +75,12 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Set<Circle> circles = Set.from([
+    //   Circle(
+    //     circleId: CircleId("id"),
+    //     radius: 4000,
+    // )]);
+
     _googleMap = new GoogleMap(
       mapType: MapType.normal,
       myLocationEnabled: true,
@@ -78,6 +88,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
       onMapCreated: (GoogleMapController controller) {
         _controller.complete(controller);
       },
+      // circles: circles,
     );
 
     return _googleMap;

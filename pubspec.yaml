@@ -19,8 +19,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  file_picker: ^1.4.2
-  flutter_ffmpeg:  ^0.2.10
   uuid: 2.0.4
   flutter_sound: ^2.0.4
   google_maps_flutter: ^0.5.22
