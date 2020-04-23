@@ -10,11 +10,9 @@ class FriendMap extends StatefulWidget {
 }
 
 class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
-  bool _locationPermission = false;
   Location _locationService = new Location();
   LocationData _startLocation;
   LocationData _currentLocation;
-  StreamSubscription<LocationData> _locationSubscription;
 
   GoogleMap _googleMap;
   CameraPosition _currentCameraPosition;
@@ -26,33 +24,28 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   void _initMapState() async {
     await _locationService.changeSettings(
-        accuracy: LocationAccuracy.HIGH, interval: 1000);
+        accuracy: LocationAccuracy.high, interval: 1000);
     LocationData location;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       bool serviceStatus = await _locationService.serviceEnabled();
       print("Service status: $serviceStatus");
       if (serviceStatus) {
-        _locationPermission = await _locationService.requestPermission();
-        print("Permission: $_locationPermission");
-        if (_locationPermission) {
-          location = await _locationService.getLocation();
-          _locationSubscription = _locationService
-              .onLocationChanged()
-              .listen((LocationData result) async {
-            _currentCameraPosition = CameraPosition(
-                target: LatLng(result.latitude, result.longitude), zoom: 16);
+        location = await _locationService.getLocation();
+        _locationService.onLocationChanged
+        .listen((LocationData result) async {
+          _currentCameraPosition = CameraPosition(
+              target: LatLng(result.latitude, result.longitude), zoom: 16);
 
-            final GoogleMapController controller = await _controller.future;
-            controller.animateCamera(
-                CameraUpdate.newCameraPosition(_currentCameraPosition));
-            if (mounted) {
-              setState(() {
-                _currentLocation = result;
-              });
-            }
-          });
-        }
+          final GoogleMapController controller = await _controller.future;
+          controller.animateCamera(
+              CameraUpdate.newCameraPosition(_currentCameraPosition));
+          if (mounted) {
+            setState(() {
+              _currentLocation = result;
+            });
+          }
+        });
       } else {
         bool serviceStatusResult = await _locationService.requestService();
         print("Service status activated after request: $serviceStatusResult");

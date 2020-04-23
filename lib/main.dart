@@ -59,46 +59,77 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
 
   void _sendVoiceMessage(String path) {}
 
+  Widget cardsWidget(itemIndex) => Container(
+        margin: EdgeInsets.all(24),
+      );
+
   Widget build(BuildContext context) {
     var googleMapContainer = new Container(
-      height: 200.0,
+      height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: new FriendMap(),
     );
 
     return new Scaffold(
-      appBar: new AppBar(
-          title: new Text("Beezy"),
-          elevation:
-              Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0),
-      body: new Container(
-        child: new Column(children: <Widget>[
+        appBar: new AppBar(
+            title: new Text("Beezy", style: TextStyle(color: Colors.black87)),
+            backgroundColor: Colors.white,
+            elevation:
+                Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0),
+        body: Stack(children: <Widget>[
           googleMapContainer,
-          new Flexible(
-            child: new ListView.builder(
-              padding: new EdgeInsets.all(8.0),
-              reverse: true,
-              itemBuilder: (_, int index) => _messages[index],
-              itemCount: _messages.length,
-            ),
-          ),
-          new Divider(height: 1.0),
-          new Container(
-            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-            child: new MessageComposer(
-              onTextMessage: _sendTextMessage,
-              onVoiceMessage: _sendVoiceMessage,
-            ),
-          ),
-        ]),
-        decoration: Theme.of(context).platform == TargetPlatform.iOS
-            ? new BoxDecoration(
-                border: new Border(
-                  top: new BorderSide(color: Colors.grey[200]),
-                ),
-              )
-            : null,
-      ), //new
-    );
+          DraggableScrollableSheet(
+              initialChildSize: 0.4,
+              minChildSize: 0.2,
+              maxChildSize: 0.8,
+              builder:
+                  (BuildContext context, ScrollController scrollController) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0)),
+                    color: Colors.white,
+                  ),
+                  child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 2),
+                      controller: scrollController,
+                      itemCount: 8,
+                      itemBuilder: (BuildContext context, int index) {
+                        return cardsWidget(index);
+                      }),
+                );
+              }),
+          // Container(
+          //   child: new Column(children: <Widget>[
+          //     googleMapContainer,
+          //     new Flexible(
+          //       child: new ListView.builder(
+          //         padding: new EdgeInsets.all(8.0),
+          //         reverse: true,
+          //         itemBuilder: (_, int index) => _messages[index],
+          //         itemCount: _messages.length,
+          //       ),
+          //     ),
+          //     new Divider(height: 1.0),
+          //     new Container(
+          //       decoration:
+          //           new BoxDecoration(color: Theme.of(context).cardColor),
+          //       child: new MessageComposer(
+          //         onTextMessage: _sendTextMessage,
+          //         onVoiceMessage: _sendVoiceMessage,
+          //       ),
+          //     ),
+          //   ]),
+          //   decoration: Theme.of(context).platform == TargetPlatform.iOS
+          //       ? new BoxDecoration(
+          //           border: new Border(
+          //             top: new BorderSide(color: Colors.grey[200]),
+          //           ),
+          //         )
+          //       : null,
+          // ),
+        ]));
   }
 }

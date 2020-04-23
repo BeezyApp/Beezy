@@ -24,6 +24,7 @@ dependencies:
   uuid: 2.0.4
   flutter_sound: ^2.0.4
   google_maps_flutter: ^0.5.22
+  geolocator:
   location:
   intl:
 
