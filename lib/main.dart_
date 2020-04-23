@@ -1,0 +1,124 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter_ffmpeg/flutter_ffmpeg.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Bees',
+      theme: ThemeData(
+        primarySwatch: Colors.amber,
+      ),
+      home: MyHomePage(title: 'Bees'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  String _recordTimeStr;
+  FlutterSound _recorder = new FlutterSound();
+  StreamSubscription _recorderSub;
+
+  void _startRecording() async {
+    print("Start recording...");
+    await _recorder.startRecorder(
+      codec: t_CODEC.CODEC_AAC,
+    );
+
+    _recorderSub = _recorder.onRecorderStateChanged.listen((e) {
+      DateTime date =
+          new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
+      setState(() {
+        _recordTimeStr = DateFormat('mm:ss:SS', 'en_US').format(date);
+      });
+    });
+  }
+
+  void _stopRecording() async {
+    String recordPath = await _recorder.stopRecorder();
+    print("Stopped recording.");
+    print("Recorded: $recordPath");
+
+    if (_recorderSub != null) {
+      _recorderSub.cancel();
+      _recorderSub = null;
+    }
+
+    final FlutterFFmpeg _flutterFFmpeg = new FlutterFFmpeg();
+    final FlutterFFmpegConfig _flutterFFmpegConfig = new FlutterFFmpegConfig();
+    _flutterFFmpeg
+        .execute("-i $recordPath")
+        .then((rc) => print("FFmpeg process exited with rc $rc"));
+    _flutterFFmpegConfig
+        .getLastCommandOutput()
+        .then((output) => print("Last command output: $output"));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Recording Time: ',
+            ),
+            Text(
+              '$_recordTimeStr',
+              style: Theme.of(context).textTheme.headline4,
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: Listener(
+        onPointerDown: (details) {
+          _startRecording();
+        },
+        onPointerUp: (details) {
+          _stopRecording();
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: null,
+              tooltip: 'Hold to Record',
+              child: Icon(Icons.keyboard_voice),
+            ),
+            FloatingActionButton(
+              onPressed: null,
+              tooltip: 'Tap to Play',
+              child: Icon(Icons.play_arrow),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
