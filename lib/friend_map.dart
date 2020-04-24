@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
@@ -13,7 +14,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
   Location _locationService = new Location();
   LocationData _startLocation;
   LocationData _currentLocation;
-  // LatLng _currentLa/tLng;
+  LatLng _currentLatLng;
 
 
   GoogleMap _googleMap;
@@ -45,7 +46,6 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
           if (mounted) {
             setState(() {
               _currentLocation = result;
-              // _currentLatLng = LatLng(result.latitude, result.longitude);
 
             });
           }
@@ -64,6 +64,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
     setState(() {
       _startLocation = location;
+      _currentLatLng = LatLng(_startLocation.latitude, _startLocation.longitude);
     });
   }
 
@@ -75,11 +76,14 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // Set<Circle> circles = Set.from([
-    //   Circle(
-    //     circleId: CircleId("id"),
-    //     radius: 4000,
-    // )]);
+    Set<Circle> circles = Set.from([
+      Circle(
+        circleId: CircleId("id"),
+        center: _currentLatLng,
+        radius: 100,
+        strokeWidth: 1,
+        strokeColor: Colors.blue,
+    )]);
 
     _googleMap = new GoogleMap(
       mapType: MapType.normal,
