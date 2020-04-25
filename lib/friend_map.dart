@@ -76,15 +76,6 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Set<Circle> circles = Set.from([
-      Circle(
-        circleId: CircleId("id"),
-        center: _currentLatLng,
-        radius: 100,
-        strokeWidth: 1,
-        strokeColor: Colors.blue,
-    )]);
-
     _googleMap = new GoogleMap(
       mapType: MapType.normal,
       myLocationEnabled: true,
