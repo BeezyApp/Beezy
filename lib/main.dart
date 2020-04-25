@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'friend_map.dart';
 import 'message_composer.dart';
 import 'chat_message.dart';
+import 'scroll_sheet.dart';
 
 void main() {
   runApp(new BeesApp());
@@ -57,18 +58,14 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     });
   }
 
-  void _sendVoiceMessage(String path) {}
-
-  Widget cardsWidget(itemIndex) => Container(
-        margin: EdgeInsets.all(24),
-      );
-
   Widget build(BuildContext context) {
     var googleMapContainer = new Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: new FriendMap(),
     );
+
+    var scrollSheet = new ScrollSheet();
 
     return new Scaffold(
         appBar: new AppBar(
@@ -78,29 +75,7 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0),
         body: Stack(children: <Widget>[
           googleMapContainer,
-          DraggableScrollableSheet(
-              initialChildSize: 0.4,
-              minChildSize: 0.2,
-              maxChildSize: 0.8,
-              builder:
-                  (BuildContext context, ScrollController scrollController) {
-                return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30.0),
-                        topRight: Radius.circular(30.0)),
-                    color: Colors.white,
-                  ),
-                  child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 2),
-                      controller: scrollController,
-                      itemCount: 8,
-                      itemBuilder: (BuildContext context, int index) {
-                        return cardsWidget(index);
-                      }),
-                );
-              }),
+          scrollSheet,
           // Container(
           //   child: new Column(children: <Widget>[
           //     googleMapContainer,
