@@ -15,6 +15,22 @@ final ThemeData kDefaultTheme = new ThemeData(
 
 ThemeData getPlatformTheme() {
   return defaultTargetPlatform == TargetPlatform.iOS
-          ? kIOSTheme
-          : kDefaultTheme;
+      ? kIOSTheme
+      : kDefaultTheme;
 }
+
+double getAppBarElevation(BuildContext context) {
+  return Theme.of(context).platform == TargetPlatform.iOS ? 0.0 : 4.0;
+}
+
+TextStyle appBarTitleStyle = TextStyle(color: Colors.black87);
+TextStyle scrollCarTitleStyle = TextStyle(
+    fontWeight: FontWeight.normal, fontSize: 24.0, color: Colors.black54);
+TextStyle scrollCarItemTextStyle = TextStyle(
+    fontWeight: FontWeight.normal, fontSize: 16.0, color: Colors.black);
+
+
+BorderRadiusGeometry scrollCardBorder = BorderRadius.only(
+  topLeft: Radius.circular(24.0),
+  topRight: Radius.circular(24.0),
+);

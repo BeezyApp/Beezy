@@ -76,7 +76,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    _googleMap = new GoogleMap(
+    _googleMap = GoogleMap(
       mapType: MapType.normal,
       myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
