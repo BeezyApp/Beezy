@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
+import 'theme.dart';
 import 'friend_map.dart';
 import 'message_composer.dart';
 import 'chat_message.dart';
@@ -11,25 +12,12 @@ void main() {
   runApp(new BeesApp());
 }
 
-final ThemeData kIOSTheme = new ThemeData(
-  primarySwatch: Colors.orange,
-  primaryColor: Colors.grey[100],
-  primaryColorBrightness: Brightness.light,
-);
-
-final ThemeData kDefaultTheme = new ThemeData(
-  primarySwatch: Colors.purple,
-  accentColor: Colors.orangeAccent[400],
-);
-
 class BeesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: "Beezy",
-      theme: defaultTargetPlatform == TargetPlatform.iOS
-          ? kIOSTheme
-          : kDefaultTheme,
+      theme: getPlatformTheme(),
       home: new MainScreen(),
     );
   }
@@ -44,19 +32,19 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   final List<ChatMessage> _messages = <ChatMessage>[];
   final TextEditingController _textController = new TextEditingController();
 
-  void _sendTextMessage(String text) {
-    ChatMessage message = new ChatMessage(
-      text: text,
-      animationController: new AnimationController(
-        duration: new Duration(milliseconds: 300),
-        vsync: this,
-      ),
-    );
-    message.animationController.forward();
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
+  // void _sendTextMessage(String text) {
+  //   ChatMessage message = new ChatMessage(
+  //     text: text,
+  //     animationController: new AnimationController(
+  //       duration: new Duration(milliseconds: 300),
+  //       vsync: this,
+  //     ),
+  //   );
+  //   message.animationController.forward();
+  //   setState(() {
+  //     _messages.insert(0, message);
+  //   });
+  // }
 
   Widget build(BuildContext context) {
     var googleMapContainer = new Container(
