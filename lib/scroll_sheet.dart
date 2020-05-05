@@ -52,19 +52,18 @@ class ScrollSheet extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _item("Stevens Computer Science Club ", Icons.favorite,
-                  Colors.blue, true),
-              _item("CS545 Discussion", Icons.restaurant, Colors.red, true),
-              _item("Library Chat", Icons.event, Colors.amber, true),
+              _item("Library Chat", "images/group_library.jpg", true),
               SizedBox(height: 10),
-              _item("Xi Zhang", Icons.more_horiz,
-                  Colors.green, false),
+              _item("Stevens Computer Science Club ","images/group_scsc.jpg", true),
+              _item("CS545 Discussion", "images/group_hci.jpg", true),
+              
+              _item("Xi Zhang", "images/people_xi.png", false),
             ],
           ),
         ]));
   }
 
-  Widget _item(String label, IconData icon, Color color, bool isGroup) {
+  Widget _item(String label, String avatar, bool isGroup) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -72,21 +71,18 @@ class ScrollSheet extends StatelessWidget {
             children: <Widget>[
               SizedBox(width: 10),
               Container(
-                margin: const EdgeInsets.all(6),
-                padding: const EdgeInsets.all(12.0),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
+                margin: const EdgeInsets.all(10),
+                // padding: const EdgeInsets.all(12.0),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundImage: AssetImage(avatar),
                 ),
-                decoration: BoxDecoration(
-                    color: color,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.15),
-                        blurRadius: 5.0,
-                      )
-                    ]),
+                decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
+                  BoxShadow(
+                    color: Color.fromRGBO(0, 0, 0, 0.12),
+                    blurRadius: 10.0,
+                  )
+                ]),
               ),
               SizedBox(width: 5),
               Text(label, style: scrollCarItemTextStyle),
