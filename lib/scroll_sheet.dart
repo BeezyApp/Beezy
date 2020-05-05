@@ -85,7 +85,7 @@ class ScrollSheet extends StatelessWidget {
                 ]),
               ),
               SizedBox(width: 5),
-              Text(label, style: scrollCarItemTextStyle),
+              Text(label, style: scrollCardItemTextStyle),
             ],
           ),
           Row(children: <Widget>[

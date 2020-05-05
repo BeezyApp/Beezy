@@ -4,18 +4,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class FriendMap extends StatefulWidget {
-  const FriendMap({Key key}) : super(key: key);
+import 'theme.dart';
+import 'scroll_sheet.dart';
+
+class MapPage extends StatefulWidget {
+  const MapPage({Key key}) : super(key: key);
 
   @override
-  State createState() => new FriendMapState();
+  State createState() => new MapPageState();
 }
 
-class FriendMapState extends State<FriendMap>
+class MapPageState extends State<MapPage>
     with
         // TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin<FriendMap> {
+        AutomaticKeepAliveClientMixin<MapPage> {
   Location _locationService = new Location();
   LocationData _startLocation;
   LocationData _currentLocation;
@@ -78,15 +82,22 @@ class FriendMapState extends State<FriendMap>
 
   @override
   Widget build(BuildContext context) {
-    return GoogleMap(
-      mapType: MapType.normal,
-      myLocationEnabled: true,
-      initialCameraPosition: _initialCamera,
-      onMapCreated: (GoogleMapController controller) {
-        _controller.complete(controller);
-      },
-      // circles: circles,
-    );;
+    return SlidingUpPanel(
+      key: PageStorageKey('map'),
+      parallaxEnabled: true,
+      parallaxOffset: .5,
+      minHeight: 85,
+      borderRadius: scrollCardBorder,
+      body: GoogleMap(
+        mapType: MapType.normal,
+        myLocationEnabled: true,
+        initialCameraPosition: _initialCamera,
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+      ),
+      panelBuilder: (sc) => ScrollSheet(scrollController: sc),
+    );
   }
 
   @override

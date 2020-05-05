@@ -26,7 +26,7 @@ double getAppBarElevation(BuildContext context) {
 TextStyle appBarTitleStyle = TextStyle(color: Colors.black87);
 TextStyle scrollCarTitleStyle = TextStyle(
     fontWeight: FontWeight.normal, fontSize: 24.0, color: Colors.black54);
-TextStyle scrollCarItemTextStyle = TextStyle(
+TextStyle scrollCardItemTextStyle = TextStyle(
     fontWeight: FontWeight.normal, fontSize: 16.0, color: Colors.black);
 
 
