@@ -6,18 +6,21 @@ import 'package:location/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FriendMap extends StatefulWidget {
+  const FriendMap({Key key}) : super(key: key);
+
   @override
   State createState() => new FriendMapState();
 }
 
-class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
+class FriendMapState extends State<FriendMap>
+    with
+        // TickerProviderStateMixin,
+        AutomaticKeepAliveClientMixin<FriendMap> {
   Location _locationService = new Location();
   LocationData _startLocation;
   LocationData _currentLocation;
   LatLng _currentLatLng;
 
-
-  GoogleMap _googleMap;
   CameraPosition _currentCameraPosition;
   Completer<GoogleMapController> _controller = Completer();
   static final CameraPosition _initialCamera = CameraPosition(
@@ -35,8 +38,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
       print("Service status: $serviceStatus");
       if (serviceStatus) {
         location = await _locationService.getLocation();
-        _locationService.onLocationChanged
-        .listen((LocationData result) async {
+        _locationService.onLocationChanged.listen((LocationData result) async {
           _currentCameraPosition = CameraPosition(
               target: LatLng(result.latitude, result.longitude), zoom: 16);
 
@@ -46,7 +48,6 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
           if (mounted) {
             setState(() {
               _currentLocation = result;
-
             });
           }
         });
@@ -64,7 +65,8 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
     setState(() {
       _startLocation = location;
-      _currentLatLng = LatLng(_startLocation.latitude, _startLocation.longitude);
+      _currentLatLng =
+          LatLng(_startLocation.latitude, _startLocation.longitude);
     });
   }
 
@@ -76,7 +78,7 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    _googleMap = GoogleMap(
+    return GoogleMap(
       mapType: MapType.normal,
       myLocationEnabled: true,
       initialCameraPosition: _initialCamera,
@@ -84,8 +86,9 @@ class FriendMapState extends State<FriendMap> with TickerProviderStateMixin {
         _controller.complete(controller);
       },
       // circles: circles,
-    );
-
-    return _googleMap;
+    );;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
