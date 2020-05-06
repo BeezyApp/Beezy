@@ -51,6 +51,7 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         elevation: getAppBarElevation(context));
 
     var navBar = BottomNavigationBar(
+      selectedItemColor: Colors.amber[800],
       onTap: onTabTapped, // new
       currentIndex: _currentIndex, // new
       items: [
