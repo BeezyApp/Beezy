@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'map_page.dart';
 import 'settings_page.dart';
+import 'people_page.dart';
 import 'message_composer.dart';
 import 'chat_message.dart';
 
@@ -32,9 +33,7 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   final PageStorageBucket _bucket = PageStorageBucket();
   final List<Widget> _children = [
     MapPage(key: PageStorageKey('map_page')),
-    MapPage(
-      key: PageStorageKey('test1'),
-    ),
+    PeoplePage(),
     SettingsPage(),
   ];
 
@@ -80,6 +79,7 @@ class MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     );
   }
 }
+
 
 //! Draggable scrollable sheet
 // DraggableScrollableSheet(
