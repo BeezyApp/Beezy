@@ -17,26 +17,21 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _permissionShareLocation = true;
+  Map<String, bool> _permissionSettings = {
+    "location_share_stranger": true,
+  };
 
-  Widget _settingsItem(String str, SettingsItemType type) {
+  Widget _settingsItem(String str, SettingsItemType type, String key) {
     switch (type) {
       case SettingsItemType.Toggle:
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(str, style: scrollCardItemTextStyle),
-            Switch(
-              value: _permissionShareLocation,
-              onChanged: (value) {
-                setState(() {
-                  _permissionShareLocation = value;
-                });
-              },
-              activeTrackColor: Colors.amberAccent,
-              activeColor: Colors.amber,
-            ),
-          ],
+        return SwitchListTile(
+          value: _permissionSettings[key],
+          title: Text(str),
+          onChanged: (value) {
+            setState(() {
+              _permissionSettings[key] = value;
+            });
+          },
         );
       case SettingsItemType.TextInput:
         // TODO: Handle this case.
@@ -47,7 +42,6 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(20),
       children: <Widget>[
         SizedBox(
           height: 25.0,
@@ -70,13 +64,13 @@ class _SettingsPageState extends State<SettingsPage> {
             ),
             SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [Text("Han Zheng", style: scrollCardItemTextStyle)],
-            )
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [Text("Han Zheng", style: scrollCardItemTextStyle)])
           ],
         ),
         SizedBox(height: 20),
-        _settingsItem("share location to stranger", SettingsItemType.Toggle),
+        _settingsItem("share location to stranger", SettingsItemType.Toggle,
+            "location_share_stranger"),
       ],
     );
   }
