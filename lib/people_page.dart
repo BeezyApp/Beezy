@@ -1,8 +1,8 @@
 import 'dart:core';
-
+import 'package:Beezy/chat_message.dart';
+import 'package:Beezy/chat_page.dart';
 import 'package:Beezy/contact.dart';
 import 'package:flutter/material.dart';
-import 'package:tuple/tuple.dart';
 
 import 'theme.dart';
 
@@ -23,7 +23,6 @@ class _PeoplePageState extends State<PeoplePage> {
       child: FlatButton(
         color: Colors.white10,
         padding: EdgeInsets.fromLTRB(25.0, 8.0, 25.0, 8.0),
-
         child: Row(
           children: <Widget>[
             contact.avatarPath.isEmpty
@@ -49,7 +48,7 @@ class _PeoplePageState extends State<PeoplePage> {
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
                       child: Text(
-                        'Nickname: ${contact.name}',
+                        '${contact.name}',
                         style: TextStyle(color: Colors.black87),
                       ),
                     ),
@@ -68,13 +67,15 @@ class _PeoplePageState extends State<PeoplePage> {
           ],
         ),
         onPressed: () {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => Chat(
-          //               peerId: document.documentID,
-          //               peerAvatar: document['photoUrl'],
-          //             )));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatPage(
+                    //   peerId: document.documentID,
+                    //   peerAvatar: document['photoUrl'],
+                    // ))
+                    ),
+              ));
         },
       ),
     );
@@ -90,8 +91,9 @@ class _PeoplePageState extends State<PeoplePage> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: _contactWidgets,
-            padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+    return ListView(
+      children: _contactWidgets,
+      padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
     );
   }
 }
