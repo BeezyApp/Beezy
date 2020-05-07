@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 List<Contact> g_people = [
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
-  Contact("xi_zhang", "Xi Zhang", false, "images/people_xi.png"),
+  Contact("Aaron_B", "Aaron B", false, "images/people_aaron.png"),
+  Contact("Berry_E", "Berry E", false, "images/people_berry.png"),
+  Contact("Chris_E", "Chris E", false, "images/people_chris.png"),
+  Contact("Dana_Z", "Dana Z", false, "images/people_dana.png"),
+  Contact("Evan_Y", "Evan Y", false, "images/people_evan.png"),
+  Contact("Grace_Be", "Grace Be", false, "images/people_grace.png"),
+  Contact("Tim_Zheng", "Tim Zheng", false, "images/people_tim.png"),
+  Contact("Rebecca_Zhang", "Rebecca Zhang", false, "images/people_rebecca.png"),
+  Contact("Python_CWI", "Python CWI", false, "images/people_python.png"),
+  Contact("Flutter_Google", "Flutter Google", false, "images/people_flutter.png"),
 ];
 
 class Contact {
