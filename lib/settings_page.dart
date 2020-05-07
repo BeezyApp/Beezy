@@ -19,8 +19,11 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   Map<String, bool> _permissionSettings = {
     "location_share_stranger": true,
+    "notification_stranger": true,
+    "notification_friend": true,
+    "notification_friend_nearby": false,
   };
-
+  
   Widget _settingsItem(String str, SettingsItemType type, String key) {
     switch (type) {
       case SettingsItemType.Toggle:
@@ -71,6 +74,12 @@ class _SettingsPageState extends State<SettingsPage> {
         SizedBox(height: 20),
         _settingsItem("share location to stranger", SettingsItemType.Toggle,
             "location_share_stranger"),
+        _settingsItem("stranger message notification", SettingsItemType.Toggle,
+            "notification_stranger"),
+        _settingsItem("friend message notification", SettingsItemType.Toggle,
+            "notification_friend"),
+        _settingsItem("friend nearby notification", SettingsItemType.Toggle,
+            "notification_friend_nearby"),
       ],
     );
   }
