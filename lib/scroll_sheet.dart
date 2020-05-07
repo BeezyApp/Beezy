@@ -1,14 +1,22 @@
+import 'package:Beezy/chat_page.dart';
+import 'package:Beezy/global.dart';
 import 'package:Beezy/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
-class ScrollSheet extends StatelessWidget {
+class ScrollSheet extends StatefulWidget {
   final ScrollController scrollController;
 
   const ScrollSheet({
     @required this.scrollController,
   }) : super();
 
+  @override
+  _ScrollSheetState createState() => _ScrollSheetState();
+}
+
+class _ScrollSheetState extends State<ScrollSheet> {
   Widget cardsWidget(itemIndex) => Container(
         margin: EdgeInsets.all(24),
       );
@@ -16,9 +24,11 @@ class ScrollSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MediaQuery.removePadding(
-        context: context,
-        removeTop: true,
-        child: ListView(controller: scrollController, children: <Widget>[
+      context: context,
+      removeTop: true,
+      child: ListView(
+        controller: widget.scrollController,
+        children: <Widget>[
           SizedBox(
             height: 12.0,
           ),
@@ -52,19 +62,26 @@ class ScrollSheet extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _item("Library Chat", "images/group_library.jpg", true),
-              SizedBox(height: 10),
-              _item("Stevens Computer Science Club ","images/group_scsc.jpg", true),
-              _item("CS545 Discussion", "images/group_hci.jpg", true),
+              _item(Key("Berry_E")),
+              _item(Key("Chris_E")),
+              _item(Key("Rebecca_Zhang")),
               
-              _item("Xi Zhang", "images/people_xi.png", false),
+              SizedBox(height: 10),
+              _item(Key("Library_Chat")),
+              _item(Key("SCSC")),
+              _item(Key("CS545")),
             ],
           ),
-        ]));
+        ],
+      ),
+    );
   }
 
-  Widget _item(String label, String avatar, bool isGroup) {
-    return Row(
+  Widget _item(Key key) {
+    return FlatButton(
+      color: Colors.white10,
+      // padding: EdgeInsets.fromLTRB(25.0, 8.0, 25.0, 8.0),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Row(
@@ -75,7 +92,7 @@ class ScrollSheet extends StatelessWidget {
                 // padding: const EdgeInsets.all(12.0),
                 child: CircleAvatar(
                   radius: 25,
-                  backgroundImage: AssetImage(avatar),
+                  backgroundImage: AssetImage(g_people[key].avatarPath),
                 ),
                 decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                   BoxShadow(
@@ -85,17 +102,28 @@ class ScrollSheet extends StatelessWidget {
                 ]),
               ),
               SizedBox(width: 5),
-              Text(label, style: scrollCardItemTextStyle),
+              Text(g_people[key].name, style: scrollCardItemTextStyle),
             ],
           ),
-          Row(children: <Widget>[
-            SizedBox(width: 10),
-            Icon(
-              isGroup ? Icons.group : Icons.person,
-              color: Colors.black87,
-            ),
-            SizedBox(width: 16),
-          ]),
-        ]);
+          Row(
+            children: <Widget>[
+              SizedBox(width: 10),
+              Icon(
+                g_people[key].isGroup ? Icons.group : Icons.person,
+                color: Colors.black87,
+              ),
+              SizedBox(width: 16),
+            ],
+          ),
+        ],
+      ),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(key: key),
+            ));
+      },
+    );
   }
 }

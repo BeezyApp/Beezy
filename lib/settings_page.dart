@@ -1,3 +1,4 @@
+import 'package:Beezy/global.dart';
 import 'package:flutter/material.dart';
 
 import 'theme.dart';
@@ -23,6 +24,20 @@ class _SettingsPageState extends State<SettingsPage> {
     "notification_friend": true,
     "notification_friend_nearby": false,
   };
+
+  Widget _settingsCategory(String str) {
+    return Padding(
+      padding: const EdgeInsets.only(top:15.0),
+      child: Row(
+        
+        children: [SizedBox(width: 15,),
+          Text(str,
+          style: TextStyle(color: Colors.grey, fontSize: 14, fontWeight: FontWeight.bold)
+          ),
+        ],
+      ),
+    );
+  }
   
   Widget _settingsItem(String str, SettingsItemType type, String key) {
     switch (type) {
@@ -56,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage> {
               // padding: const EdgeInsets.all(12.0),
               child: CircleAvatar(
                 radius: 38,
-                backgroundImage: AssetImage("images/avatar.jpg"),
+                backgroundImage: AssetImage(g_currentUser.avatarPath),
               ),
               decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
                 BoxShadow(
@@ -68,12 +83,15 @@ class _SettingsPageState extends State<SettingsPage> {
             SizedBox(height: 15),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [Text("Han Zheng", style: scrollCardItemTextStyle)])
+                children: [Text(g_currentUser.name, style: scrollCardItemTextStyle)])
           ],
         ),
         SizedBox(height: 20),
+        _settingsCategory("Permissions"),
         _settingsItem("share location to stranger", SettingsItemType.Toggle,
             "location_share_stranger"),
+                    _settingsCategory("Notifications"),
+
         _settingsItem("stranger message notification", SettingsItemType.Toggle,
             "notification_stranger"),
         _settingsItem("friend message notification", SettingsItemType.Toggle,

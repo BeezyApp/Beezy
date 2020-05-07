@@ -3,6 +3,7 @@ import 'package:Beezy/chat_message.dart';
 import 'package:Beezy/chat_page.dart';
 import 'package:Beezy/contact.dart';
 import 'package:flutter/material.dart';
+import 'global.dart';
 
 import 'theme.dart';
 
@@ -41,40 +42,47 @@ class _PeoplePageState extends State<PeoplePage> {
                   ),
             Flexible(
               child: Container(
-                margin: EdgeInsets.only(left: 20.0),
+                margin: EdgeInsets.only(left: 20.0,),
                 child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 5.0),
+                      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 5.0),
                       child: Text(
                         '${contact.name}',
                         style: TextStyle(color: Colors.black87),
                       ),
                     ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
-                      child: Text(
-                        'About me: place holder',
-                        style: TextStyle(color: Colors.black87),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      // : EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+                      children: [ Icon(Icons.record_voice_over, size:14,color: Colors.grey,), SizedBox(width: 5,), Text(
+                        'Online',
+                        style: TextStyle(color: Colors.grey),
+                      ),]
                     )
                   ],
                 ),
               ),
-            ),
+            ),Row(
+            children: <Widget>[
+              SizedBox(width: 10),
+              Icon(
+                contact.isGroup ? Icons.group : Icons.person,
+                color: Colors.grey,
+                size: 20,
+              ),
+              SizedBox(width: 16),
+            ],
+          ),
           ],
         ),
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ChatPage(
-                    //   peerId: document.documentID,
-                    //   peerAvatar: document['photoUrl'],
-                    // ))
-                    ),
+                builder: (context) => ChatPage(key: contact.key),
               ));
         },
       ),
@@ -83,7 +91,8 @@ class _PeoplePageState extends State<PeoplePage> {
 
   @override
   void initState() {
-    for (var contact in g_people) {
+    for (var contact in g_people.values) {
+      if(contact.key == g_currentUser.key) continue;
       _contactWidgets.add(createContactItem(contact));
     }
     super.initState();

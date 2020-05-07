@@ -7,6 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tuple/tuple.dart';
 
+import 'chat_page.dart';
 import 'theme.dart';
 import 'scroll_sheet.dart';
 
@@ -25,17 +26,17 @@ class MapPageState extends State<MapPage>
   LatLng _currentLatLng;
 
   List<Marker> _markers = [];
-  List<Tuple2<String, LatLng>> _markerInfo = [
-    Tuple2("xi_zhang", LatLng(40.744392, -74.025579)),
-    Tuple2("han_zheng", LatLng(40.746213, -74.025424)),
-    Tuple2("a", LatLng(40.745238, -74.026067)),
-    Tuple2("b", LatLng(40.744710, -74.025802)),
-    Tuple2("c", LatLng(40.744669, -74.028667)),
-    Tuple2("d", LatLng(40.745457, -74.028302)),
-    Tuple2("e", LatLng(40.746353, -74.026999)),
-    Tuple2("f", LatLng(40.744134, -74.027707)),
-    Tuple2("g", LatLng(40.744841, -74.025754)),
-    Tuple2("h", LatLng(40.744345, -74.025615)),
+  List<Tuple2<Key, LatLng>> _markerInfo = [
+    Tuple2(Key("Aaron_B"), LatLng(40.744392, -74.025579)),
+    Tuple2(Key("Berry_E"), LatLng(40.746213, -74.025424)),
+    Tuple2(Key("Chris_E"), LatLng(40.745238, -74.026067)),
+    Tuple2(Key("Dana_Z"), LatLng(40.744710, -74.025802)),
+    Tuple2(Key("Evan_Y"), LatLng(40.744669, -74.028667)),
+    Tuple2(Key("Grace_Be"), LatLng(40.745457, -74.028302)),
+    Tuple2(Key("Tim_Zheng"), LatLng(40.744134, -74.027707)),
+    Tuple2(Key("Rebecca_Zhang"), LatLng(40.746353, -74.026999)),
+    Tuple2(Key("Python_CWI"), LatLng(40.744841, -74.025754)),
+    Tuple2(Key("Flutter_Google"), LatLng(40.744345, -74.025615)),
   ];
 
   CameraPosition _currentCameraPosition;
@@ -51,17 +52,22 @@ class MapPageState extends State<MapPage>
 
     for (var tuple in _markerInfo) {
       _markers.add(
-      Marker(
-          markerId: MarkerId(tuple.item1),
-          draggable: false,
-          position: tuple.item2,
-          icon: dsc,
-          onTap: () =>
-            print("tapped" + tuple.item1),
-          ),
-    );
+        Marker(
+            markerId: MarkerId(tuple.item1.toString()),
+            draggable: false,
+            position: tuple.item2,
+            icon: dsc,
+            onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChatPage(key: tuple.item1),
+                    ),
+                  ),
+                  print(tuple.item1)
+                }),
+      );
     }
-    
 
     await _locationService.changeSettings(
         accuracy: LocationAccuracy.high, interval: 1000);

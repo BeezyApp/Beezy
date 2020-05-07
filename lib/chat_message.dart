@@ -1,42 +1,56 @@
+import 'package:Beezy/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-
 class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text, this.name, this.animationController});
+  ChatMessage({this.text, this.key, this.animationController, this.fromMe});
+  // final String avatarPath;
   final String text;
-  final String name;
+  final Key key;
+  final bool fromMe;
   final AnimationController animationController;
 
   @override
   Widget build(BuildContext context) {
-    return new SizeTransition(
-      sizeFactor: new CurvedAnimation(
-          parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: new Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              margin: const EdgeInsets.only(right: 16.0),
-              child: new CircleAvatar(child: new Text(name[0])),
-            ),
-            new Expanded(
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text(name, style: Theme.of(context).textTheme.subtitle1),
-                  new Container(
-                    margin: const EdgeInsets.only(top: 5.0),
-                    child: new Text(text),
-                  ),
-                ],
+    var avatar = CircleAvatar(
+                    radius: 18,
+                    backgroundImage: AssetImage(g_people[key].avatarPath),
+                  );
+
+    return Container(
+      margin: EdgeInsets.only(top: 4, bottom: 4),
+      child: Row(
+        mainAxisAlignment:
+            fromMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+        children: [
+          fromMe
+              ? SizedBox(
+                  width: 0,
+                )
+              : avatar,
+          SizedBox(
+            width: 10,
+          ),
+          Column(
+            crossAxisAlignment:
+                fromMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+            children: <Widget>[
+              new Text(g_people[key].name, style: Theme.of(context).textTheme.subtitle1),
+              new Container(
+                margin: const EdgeInsets.only(top: 5.0),
+                child: new Text(text),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          fromMe
+              ? avatar
+              : SizedBox(
+                  width: 0,
+                ),
+        ],
       ),
     );
   }
